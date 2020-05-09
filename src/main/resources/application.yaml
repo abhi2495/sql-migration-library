@@ -35,13 +35,13 @@ service:
   name: sql-migration-library
 
 migration:
-  schema-prefix: ${service.name}
-  packages-to-scan: com.example* #used by Hibernate LocalContainerEntityManagerFactoryBean
-  vendor: flyway #optional. If not given, liquibase is picked by default
+  schema-prefix: ${service.name} #optional, default empty string
+  packages-to-scan: com.example* #optional, default = com.example*
+  vendor: flyway #optional. default = liquibase
   flyway: #optional
     locations: classpath:db/migration/flyway #optional
     placeholders: #optional
       table_name: student
-  liquibase: #optional
+  liquibase: #optional. default = db/migration/liquibase/app-changelog.xml
     path-to-changelog: db/migration/liquibase/app-changelog.xml
 

@@ -19,7 +19,7 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
-//@ActiveProfiles(Application.Profiles.NO_DEPENDENCIES)
+@ActiveProfiles(Application.Profiles.NO_DEPENDENCIES)
 public class StudentRepositoryTest {
 
   private static final String TENANT_ALIAS_1 = "foo";

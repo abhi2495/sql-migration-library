@@ -26,10 +26,10 @@ public class HibernateConfig {
   @Autowired
   private JpaProperties jpaProperties;
 
-  @Value("${migration.schema-prefix}")
+  @Value("${migration.schema-prefix:}")
   private String schemaPrefix;
 
-  @Value("${migration.packages-to-scan}")
+  @Value("${migration.packages-to-scan:com.example*}")
   private String packagesToScan;
 
   @Bean

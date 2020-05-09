@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Primary;
 @EnableConfigurationProperties(FlywayProps.class)
 public class MigrationServiceConfig {
 
-  @Value("${migration.liquibase.path-to-changelog:#{null}}")
+  @Value("${migration.liquibase.path-to-changelog:}")
   private String pathToChangeLog;
 
   @Bean

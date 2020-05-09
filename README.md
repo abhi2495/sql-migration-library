@@ -24,15 +24,52 @@ problem** here is **by registering a Hibernate Interceptor** which replaces the 
 prepared statements. This placeholder needs to be defined in all entity classes like this 
 `@Table(name = "student", schema = "${schemaName}")`
  
-4. Currently the example changelog scripts dont use **contexts**. To read more about contexts, please refer [here]
-(https://www.liquibase.org/documentation/contexts.html)
-  
-5. To enable printing of hibernate sql queries, add these properties:
+4. Currently the liquibase sample changelog scripts dont use **contexts**. To read more about contexts, please refer 
+[here](https://www.liquibase.org/documentation/contexts.html)
+
+5. Sample configuration would look like:
+
   ```
-    spring.jpa.show-sql=true
-    spring.jpa.properties.hibernate.format_sql=true
-    logging.level.org.hibernate.SQL=debug
-    logging.level.org.hibernate.type.descriptor.sql=debug
+    spring:
+      jmx.enabled: false
+      main:
+        banner-mode: 'off'
+        allow-bean-definition-overriding: true
+      server:
+        port: 8080
+      application:
+        name: ${service.name}
+      datasource:
+        url: ${dbUrl}
+        username: ${dbUsername}
+        password: ${dbPassword}
+        driver-class-name: com.mysql.cj.jdbc.Driver
+      jpa:
+        database-platform: MYSQL
+        hibernate:
+          ddl-auto: none
+        properties:
+          hibernate:
+            temp.use_jdbc_metadata_defaults: true
+      liquibase:
+        enabled: false
+      flyway:
+        enabled: false
+    
+    
+    service:
+      name: sql-migration-library
+    
+    migration:
+      schema-prefix: ${service.name} #optional, default empty string
+      packages-to-scan: com.example* #optional, default = com.example*
+      vendor: flyway #optional. default = liquibase
+      flyway: #optional
+        locations: classpath:db/migration/flyway #optional
+        placeholders: #optional
+          table_name: student
+      liquibase: #optional. default = db/migration/liquibase/app-changelog.xml
+        path-to-changelog: db/migration/liquibase/app-changelog.xml
   ```
 
 

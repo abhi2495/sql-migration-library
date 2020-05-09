@@ -26,8 +26,8 @@ public class SchemaMultiTenantConnectionProvider implements MultiTenantConnectio
   @Autowired
   public SchemaMultiTenantConnectionProvider(
       DataSource dataSource, MigrationService migrationService,
-      @Value("${migration.schema-prefix}") String schemaPrefix,
-      @Value("${spring.jpa.database-platform}") String dbvendor) {
+      @Value("${migration.schema-prefix:}") String schemaPrefix,
+      @Value("${spring.jpa.database-platform:H2}") String dbvendor) {
     this.datasource = dataSource;
     this.schemaPrefix = schemaPrefix;
     this.dbvendor = dbvendor;
