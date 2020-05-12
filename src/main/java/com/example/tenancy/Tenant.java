@@ -2,6 +2,8 @@ package com.example.tenancy;
 
 public final class Tenant {
 
+  public static final String DEFAULT_TENANT = "public";
+
   private final String id;
 
   private final String alias;

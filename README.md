@@ -45,7 +45,7 @@ prepared statements. This placeholder needs to be defined in all entity classes 
         password: ${dbPassword}
         driver-class-name: com.mysql.cj.jdbc.Driver
       jpa:
-        database-platform: MYSQL
+        database: mysql
         hibernate:
           ddl-auto: none
         properties:

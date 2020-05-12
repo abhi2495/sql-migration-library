@@ -13,7 +13,7 @@ spring:
     password: ${sqlServerPassword}
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
   jpa:
-    database-platform: SQL_SERVER
+    database: sql_server
     hibernate:
       ddl-auto: none
     properties:

@@ -5,4 +5,4 @@ spring:
     password:
     driverClassName: org.h2.Driver
   jpa:
-    database-platform: H2
+    database: h2

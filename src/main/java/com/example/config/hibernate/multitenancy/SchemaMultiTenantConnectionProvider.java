@@ -1,7 +1,10 @@
 package com.example.config.hibernate.multitenancy;
 
+import static com.example.tenancy.Tenant.DEFAULT_TENANT;
+
 import com.example.migration.SqlMigrationUtil;
 import com.example.migration.service.MigrationService;
+import com.example.tenancy.TenantRequiredException;
 import org.hibernate.engine.jdbc.connections.spi.MultiTenantConnectionProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +20,6 @@ import java.sql.SQLException;
 public class SchemaMultiTenantConnectionProvider implements MultiTenantConnectionProvider {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(SchemaMultiTenantConnectionProvider.class);
-  private static final String DEFAULT_TENANT = "public";
   private final DataSource datasource;
   private final MigrationService migrationService;
   private final String schemaPrefix;
@@ -26,8 +28,8 @@ public class SchemaMultiTenantConnectionProvider implements MultiTenantConnectio
   @Autowired
   public SchemaMultiTenantConnectionProvider(
       DataSource dataSource, MigrationService migrationService,
-      @Value("${migration.schema-prefix:}") String schemaPrefix,
-      @Value("${spring.jpa.database-platform:H2}") String dbvendor) {
+      @Value("${migration.schema-prefix}") String schemaPrefix,
+      @Value("${spring.jpa.database}") String dbvendor) {
     this.datasource = dataSource;
     this.schemaPrefix = schemaPrefix;
     this.dbvendor = dbvendor;
@@ -47,6 +49,9 @@ public class SchemaMultiTenantConnectionProvider implements MultiTenantConnectio
   @Override
   public Connection getConnection(String tenantIdentifier) throws SQLException {
     LOGGER.info("Get connection for tenant {}", tenantIdentifier);
+    if (tenantIdentifier.equals(DEFAULT_TENANT)) {
+      throw new TenantRequiredException();
+    }
     SqlMigrationUtil.createTenantIfDoesNotExistAndMigrate(datasource, tenantIdentifier, schemaPrefix, dbvendor, migrationService);
     return getAnyConnection();
   }
